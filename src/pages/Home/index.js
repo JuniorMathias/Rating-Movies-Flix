@@ -6,6 +6,7 @@ import './style.css';
 
 function Home(){
     const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(()=>{
         async function loadMovies(){ 
@@ -16,17 +17,24 @@ function Home(){
                 }
             })
             setMovies(response.data.results.slice(0,10));
+            setLoading(false);
         }
         loadMovies();
     },[])
-
+    if(loading){
+        return(
+            <div className='loading'>
+                <h2>Loading movies</h2>
+            </div>
+        )
+    }
     return(
         <div className="container">
             <div className="movies-list">
                 {movies.map((movie) =>{
                     return(
                         <article key={movie.id}>
-                            <strong>{movie.title}</strong>
+                            <strong>{movie.release_date}</strong>
                             <img src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`} alt={movie.title} />
                             <Link to={`/movie/${movie.id}`}> Acess</Link>
                         </article>

@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Header from "./components/Header";
-
+import Erros from "./pages/Erros";
 import Home from "./pages/Home";
-import Filme from "./pages/Filme";
+import Movie from "./pages/Movie";
 
 function RoutesApp(){
     return(
@@ -11,7 +11,9 @@ function RoutesApp(){
             <Header/>
             <Routes>
                 <Route path="/" element={ <Home/> } />
-                <Route path="/filme/:id" element={ <Filme/> } />
+                <Route path="/Movie/:id" element={ <Movie/> } />
+
+                <Route path="*" element={ <Erros/> } />
             </Routes>
         </BrowserRouter>
     )
