@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../services/api'
+import { toast } from 'react-toastify';
 import './style.css';
 
 function Movie(){
@@ -35,6 +36,22 @@ useEffect(()=>{
         
     }
 }, [navigate, id])
+
+function saveClick(){
+    const myList = localStorage.getItem("@myflix");
+    
+    let savedMovies = JSON.parse(myList) || [];
+    const hasMovie = savedMovies.some((savedMovies) => savedMovies.id === movie.id)
+    if(hasMovie){
+        toast.warn("THIS MOVIE IS ON YOUR LIST ALREADY");
+        return;
+    }
+
+    savedMovies.push(movie);
+    localStorage.setItem("@myflix", JSON.stringify(savedMovies));
+    toast.success("Movie Saved");
+}
+
 if(loading){
     return(
         <div className='info-movie'>
@@ -52,9 +69,9 @@ if(loading){
             <strong>Ratings: {movie.vote_average} /10</strong>
 
             <div className='buttons-area'>
-                <button>Save</button>
+                <button onClick={saveClick}>Save</button>
                 <button>
-                    <a target="_blank" rel="external" href={`https://youtube.com/results?search_query=${movie.title} Trailer`}>
+                    <a target="blank" rel="external" href={`https://youtube.com/results?search_query=${movie.title} Trailer`}>
                     Official Trailer
                     </a>
                 </button>
